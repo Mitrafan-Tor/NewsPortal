@@ -1,0 +1,31 @@
+{% extends 'news/base.html' %}
+{% load custom_filters %}
+
+{% block news_title %}
+    {{news.title}}
+{%endblock news_title%}
+
+{% block news_content %}
+    <div class="news-detail">
+        <h1>{{ news.title|censor }}</h1>
+         <div class="post-content">
+            {{ news.text|censor|linebreaks }}
+        </div>
+        <div class="post-meta">
+            <p>
+                Дата публикации: {{news.created_at|date:"d.m.Y H:i" }}
+            </p>
+            <p>
+                Автор: {{news.author.user.username }}</p>
+            <p>
+                Категории:
+                {% for category in news.categories.all %}
+                    {{ category.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+        <div class="post-rating">
+            <p>Рейтинг: {{news.rating}}</p>
+        </div>
+    </div>
+{% endblock news_content %}

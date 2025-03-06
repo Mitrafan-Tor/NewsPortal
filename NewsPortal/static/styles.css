@@ -1,0 +1,30 @@
+/* Базовые стили */
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.post {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.post h3 {
+    margin-top: 0;
+}
+
+/* Стили для списка новостей */
+.news-list {
+    margin-top: 20px;
+}
+
+/* Стили для детальной страницы новости */
+.news-detail {
+    padding: 20px;
+}

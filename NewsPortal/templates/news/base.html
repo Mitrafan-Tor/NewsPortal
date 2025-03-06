@@ -1,0 +1,13 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    {% block news_title %}
+    {% endblock news_title %}
+{% endblock title %}
+
+{% block content %}
+    <div class="news-container">
+        {% block news_content %}
+        {% endblock news_content %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,62 @@
+{% extends 'news/base.html' %}
+{% load custom_filters %}
+
+{% block news_title %}
+    Список новостей
+{% endblock news_title %}
+
+{% block news_content %}
+ {# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+   <form action="" method="get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p }}
+       {# Добавим кнопку отправки данных формы #}
+       <input type="submit" value="Найти" />
+   </form>
+    <h1>Все новости ({{ news_count }})</h1>
+
+    <div class="news-list">
+        {% if news %}
+            {% for post in news %}
+                {% if post.post_type == 'NW' %}
+                    <div class="post">
+                        <h3><a href="{% url 'news_detail' post.id %}">{{ post.title|censor }}</a></h3>
+
+                        <p class="post-meta">
+                            {{ post.created_at|date:"d.m.Y H:i" }} |
+                            {{ post.preview|censor|truncatewords:20 }} |
+                            <h6>Категории:</h6>
+                            {% for category in post.categories.all %}
+                                {{ category.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>Новостей пока нет.</p>
+        {% endif %}
+         {# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+    </div>
+{% endblock news_content %}

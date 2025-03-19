@@ -1,0 +1,58 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block title %}
+    Список новостей
+{% endblock title %}
+
+{% block content %}
+   <div class="container mt-3">
+       <form action="" method="get">
+           {{ filterset.form.as_p }}
+           <input type="submit" value="Найти" class="btn btn-primary" />
+       </form>
+       <h1>Все новсти ({{ news_count }})</h1>
+
+       <div class="news-list">
+           {% if news %}
+               {% for post in news %}
+                   <div class="post">
+                       <h3><a href="{% url 'news_detail' post.id %}">{{ post.title|censor }}</a></h3>
+                       <p class="post-meta">
+                           {{ post.created_at|date:"d.m.Y H:i" }} |
+                           {{ post.preview|censor|truncatewords:20 }} |
+                           <h6>Категории:</h6>
+                           {% for category in post.categories.all %}
+                               {{ category.name }}{% if not forloop.last %}, {% endif %}
+                           {% endfor %}
+                       </p>
+                   </div>
+               {% endfor %}
+           {% else %}
+               <p>Новостей пока нет.</p>
+           {% endif %}
+
+           <!-- Пагинация -->
+           <div class="pagination">
+               {% if page_obj.has_previous %}
+                   <a href="?{% url_replace page=1 %}">1</a>
+                   {% if page_obj.previous_page_number != 1 %}
+                       ...
+                       <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+                   {% endif %}
+               {% endif %}
+
+               {{ page_obj.number }}
+
+               {% if page_obj.has_next %}
+                   <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+                   {% if paginator.num_pages != page_obj.next_page_number %}
+                       ...
+                       <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+                   {% endif %}
+               {% endif %}
+           </div>
+       </div>
+   </div>
+{% endblock content %}

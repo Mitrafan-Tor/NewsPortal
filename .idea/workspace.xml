@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ce851025-f3e3-4bdf-b609-d9ebde34a392" name="Changes" comment="Работает список, создание, редактирование, удаление списков и новостей">
+      <change afterPath="$PROJECT_DIR$/NewsPortal/protect/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewsPortal/sign/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewsPortal/templates/account/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewsPortal/templates/main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewsPortal/templates/protect/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewsPortal/templates/sign/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewsPortal/templates/sign/logout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewsPortal/templates/sign/signup.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mitrafan-Tor&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Mitrafan-Tor/NewsPortal.git&quot;,
+    &quot;accountId&quot;: &quot;d09b8e8d-83d7-4d1f-b60a-a5c67b835294&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2tuop28cl4dEOxb0BVWBDEMPlo9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/МОИ работы/SkillFactory/Skillfactory_python/NewsPortal 6/NewsPortal/templates",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates" />
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\articles" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\sign" />
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-14705d77f0bb-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.25659.43" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ce851025-f3e3-4bdf-b609-d9ebde34a392" name="Changes" comment="" />
+      <created>1741211499606</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741211499606</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Работает список, создание, редактирование, удаление списков и новостей">
+      <option name="closed" value="true" />
+      <created>1741462153592</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741462153592</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Работает список, создание, редактирование, удаление списков и новостей" />
+    <option name="LAST_COMMIT_MESSAGE" value="Работает список, создание, редактирование, удаление списков и новостей" />
+  </component>
+</project>

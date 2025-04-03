@@ -1,0 +1,24 @@
+{% extends 'news/base.html' %}
+
+{% block news_title %}
+    {% if 'news' in request.path %}
+        Создать новость
+    {% else %}
+        Создать статью
+    {% endif %}
+{% endblock news_title %}
+
+{% block news_content %}
+    <h1>
+        {% if 'news' in request.path %}
+            Создать новость
+        {% else %}
+            Создать статью
+        {% endif %}
+    </h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+{% endblock news_content %}

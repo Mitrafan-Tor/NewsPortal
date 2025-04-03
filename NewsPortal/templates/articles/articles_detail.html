@@ -1,0 +1,30 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+    {{ article.title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="articles-detail">
+            <h1>{{ article.title|censor }}</h1>
+            <div class="post-content">
+                {{ article.text|censor|linebreaks }}
+            </div>
+            <div class="post-meta">
+                <p>Дата публикации: {{article.created_at|date:"d.m.Y H:i" }}</p>
+                <p>Автор: {{article.author.user.username }}</p>
+                <p>
+                    Категории:
+                    {% for category in article.categories.all %}
+                        {{ category.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="post-rating">
+                <p>Рейтинг: {{article.rating}}</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

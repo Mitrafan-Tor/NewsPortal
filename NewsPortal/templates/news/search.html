@@ -1,0 +1,65 @@
+{% extends 'news/base.html' %}
+{% load custom_filters %}
+
+{% block news_title %}
+    Поиск новостей
+{% endblock news_title %}
+
+{% block news_content %}
+    <h1>Поиск новостей</h1>
+
+    <form method="GET" action="{% url 'search' %}" style="display: flex; flex-direction: column; max-width: 400px;">
+        <div style="margin-bottom: 15px;">
+            <label for="title">Название:</label>
+            <input type="text" name="title" id="title" value="{{ request.GET.title }}" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="author">Автор:</label>
+            <input type="text" name="author" id="author" value="{{ request.GET.author }}" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="date">Дата:</label>
+            <input type="date" name="date" id="date" value="{{ request.GET.date }}" style="width: 100%;">
+        </div>
+        <button type="submit">Поиск</button>
+    </form>
+
+    <div class="news-list">
+        {% if news %}
+            <h2>Результаты поиска ({{ news.count }})</h2>
+            {% for post in news %}
+                <div class="post" style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
+                    <h3 style="margin-right: 30px; flex: 1 1 auto;"><a href="{% url 'news_detail' post.id %}">{{ post.title|censor }}</a></h3>
+                    <p class="post-meta" style="flex: 1 1 auto;">
+                        {{ post.created_at|date:"d.m.Y H:i" }} |
+                        {{ post.preview|censor|truncatewords:20 }} |
+                        <strong style="margin-right: 5px;">Категории:</strong>
+                        {% for category in post.categories.all %}
+                            {{ category.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Новостей не найдено.</p>
+        {% endif %}
+    </div>
+<div class="pagination" style="margin-top: 20px;">
+    <span class="step-links">
+        {% if news.has_previous %}
+            <a href="?page=1&title={{ request.GET.title }}&author={{ request.GET.author }}&date={{ request.GET.date }}">Первая</a>
+            <a href="?page={{ news.previous_page_number }}&title={{ request.GET.title }}&author={{ request.GET.author }}&date={{ request.GET.date }}">Назад</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ news.number }} из {{ news.paginator.num_pages }}.
+        </span>
+
+        {% if news.has_next %}
+            <a href="?page={{ news.next_page_number }}&title={{ request.GET.title }}&author={{ request.GET.author }}&date={{ request.GET.date }}">Вперед</a>
+            <a href="?page={{ news.paginator.num_pages }}&title={{ request.GET.title }}&author={{ request.GET.author }}&date={{ request.GET.date }}">Последняя</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock news_content %}

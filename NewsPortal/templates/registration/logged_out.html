@@ -1,0 +1,10 @@
+{% extends 'news/base.html' %}
+
+{% block news_title %}
+    Выход
+{% endblock news_title %}
+
+{% block news_content %}
+    <h1>Вы вышли из системы</h1>
+    <a href="{% url 'login' %}">Войти снова</a>
+{% endblock news_content %}

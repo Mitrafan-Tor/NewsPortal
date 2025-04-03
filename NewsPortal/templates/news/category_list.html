@@ -1,0 +1,84 @@
+{% extends 'flatpages/default.html' %}    <!-- Страничка из вебинара и может не пригодиться-->
+{% load custom_filters %}
+
+{% block title %}
+    Hobocth
+{% endblock title %}
+
+{% block content %}
+    {% if is_not_subscriber%}                                                                                                                     <!-- v-->
+        <p class="text-centr"><a href="{% url 'subscribe' category.id %}"class="btn btn-secondary btn-sm"> Подписаться на категорию</a></p>       <!-- v-->
+    {% endif %}                                                                                                                                   <!-- v-->
+    {% If is_not_author%}
+        <button><a href="{% url 'upgrade' %}">Стать автором</a></button>
+    {% endif %}
+    <hl>Список новостей:</hl>
+    <hr>
+    {% If category_news_list %}
+        <form method="GET">
+            {{ filter.form }}
+            <input type="submit" value="Найти">
+        </form>
+        <table>
+            <tr>
+                <td>
+                    Заголовок
+                </td>
+                <td>               <!-- v-->
+                    Категории      <!-- v-->
+                </td>              <!-- v-->
+                <td>
+                    Текст
+                </td>
+                <td>
+                    Дата
+                </td>
+            </tr>
+        {% for post in category_news_list %}}
+            <tr>
+                <td>
+                    <a href="{% url 'post_detail' post.id %}">{{ post.title | censor }}</a>
+                    <a href="{% url 'post.update' post.id %}"><u>Редактировать</u></a>
+                    <a href="{% url 'post_delete' post.id %}"><u>Удалить</u></a>
+                </td>
+                <td>                                                                                       <!-- v-->
+                    {% for category in post.category.all %}                                                <!-- v-->
+                        <a href="{% url 'categori_list' categori.id%}">{{ category }}</a>                  <!-- v-->
+                    {% endfor %}                                                                           <!-- v-->
+                </td>                                                                                      <!-- v-->
+                <td>
+                    {{ post.preview | censor }}
+                </td>
+                <td>
+                    {{ post.created_at | date:'d M Y' }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+    <a href="{% url 'post_create' %}"> Добавить новую статью </a> <br>
+
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a href="?paqe=1">First</a>
+            <a href="?page={{ page_obj.previous_page_numaber }}"><<<</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page.obj_number == num %}
+                <a>{{ num }}</a>
+            elif num > page_obj.number|add:'-3'	and num < page_obj.number |add:'3' %}
+                <a href="?page=-{{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">>>></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock content %}
+

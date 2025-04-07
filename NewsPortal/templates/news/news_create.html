@@ -1,1 +1,22 @@
-﻿{% extends 'default.html' %}{% block title %}    Создание новости{% endblock title %}{% block content %}<div class="container mt-3">    <h1>Создание новости</h1>    <hr>    <form action="" method="post">        {% csrf_token %}        {{ form.as_p }}        <input type="submit" value="Сохранить" class="btn btn-primary" />    </form></div>{% endblock content %}
+﻿{% extends 'default.html' %}
+
+{% block title %}Создание новости{% endblock title %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1>Создание новости</h1>
+    <p>Вы можете опубликовать не более 3 новостей в сутки.</p>
+        <hr>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+        </form></div>
+{% endblock content %}

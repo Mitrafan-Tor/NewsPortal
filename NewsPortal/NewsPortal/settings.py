@@ -168,6 +168,19 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # это будет у нас вмес
 DEFAULT_FROM_EMAIL = os.getenv('SERVER_EMAIL')
 
 
-# DEBUG = False
+DEBUG = True
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
 # if DEBUG:
 #     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

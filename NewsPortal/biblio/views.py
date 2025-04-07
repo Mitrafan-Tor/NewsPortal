@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from django.conf import settings
-from .models import Post, Category
+from .models import Post, Category, Author
 from .search import SearchPost
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -60,13 +61,20 @@ class NewsDetail(PermissionRequiredMixin, DetailView):
 
 # Добавляем новое представление для создания товаров.
 class PostCreate(PermissionRequiredMixin, CreateView):
-    # Указываем нашу разработанную форму
+
     form_class = PostForm
-    # модель товаров
     model = Post
-    # и новый шаблон, в котором используется форма.
     template_name = 'news/news_create.html'
     permission_required = ('biblio.add_post',)
+
+    def form_valid(self, form):
+        # Устанавливаем автора текущего пользователя
+        form.instance.author = Author.objects.get(user=self.request.user)
+        try:
+            return super().form_valid(form)
+        except ValidationError as e:
+            form.add_error(None, e)
+            return self.form_invalid(form)
 
 
 

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.yandex',
-    'appointments',
+    'appointment.apps.AppointmentConfig',
 ]
 
 MIDDLEWARE = [
@@ -140,7 +140,7 @@ DATETIME_FORMAT = 'd.m.Y H:i'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
@@ -154,10 +154,16 @@ EMAIL_USE_SSL = True  # Яндекс использует ssl, подробне�
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-ADMINS = [
+# ADMINS = [
+#     ('дмитрий', 'dim.ka77@mail.ru'),
+#     # список всех админов в формате ('имя', 'их почта')
+# ]
+
+MANAGERS = [
     ('дмитрий', 'dim.ka77@mail.ru'),
-    # список всех админов в формате ('имя', 'их почта')
 ]
+
+
 SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # это будет у нас вместо аргумента FROM в массовой рассылке
 DEFAULT_FROM_EMAIL = os.getenv('SERVER_EMAIL')
 

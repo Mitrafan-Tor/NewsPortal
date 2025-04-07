@@ -1,18 +1,1 @@
-{% extends 'news/base.html' %}
-
-{% block news_title %}
-    {% if is_news %}Создание новости{% else %}Создание статьи{% endif %}
-{% endblock news_title %}
-
-{% block news_content %}
-    <div class="container mt-4">
-        <h1>{% if is_news %}Создание новости{% else %}Создание статьи{% endif %}</h1>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.as_p }}
-            </div>
-            <button type="submit" class="btn btn-primary">Создать</button>
-        </form>
-    </div>
-{% endblock news_content %}
+﻿{% extends 'news/base.html' %}{% block news_title %}    {% if is_news %}Создание новости{% else %}Создание статьи{% endif %}{% endblock news_title %}{% block news_content %}    <div class="container mt-4">        <h1>{% if is_news %}Создание новости{% else %}Создание статьи{% endif %}</h1>        <form method="post">            {% csrf_token %}            <div class="form-group">                {{ form.as_p }}            </div>            <button type="submit" class="btn btn-primary">Создать</button>        </form>    </div>{% endblock news_content %}

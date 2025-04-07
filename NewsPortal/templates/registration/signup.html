@@ -1,14 +1,1 @@
-{% extends 'news/base.html' %}
-
-{% block news_title %}
-    Регистрация
-{% endblock news_title %}
-
-{% block news_content %}
-    <h1>Регистрация</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Зарегистрироваться</button>
-    </form>
-{% endblock news_content %}
+﻿{% extends 'news/base.html' %}{% block news_title %}    Регистрация{% endblock news_title %}{% block news_content %}    <h1>Регистрация</h1>    <form method="post">        {% csrf_token %}        {{ form.as_p }}        <button type="submit">Зарегистрироваться</button>    </form>{% endblock news_content %}

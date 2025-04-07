@@ -1,6 +1,6 @@
 from django.urls import path
 
-from appointments.urls import app_name
+from appointment.urls import app_name
 from .views import (
     NewsList, NewsDetail, PostCreate, PostEdit, PostDelete,
     ArticlesList, ArticlesDetail, ArticlesEdit, ArticlesCreate, ArticlesDelete, CategoryListView, subscribe,# test_email,

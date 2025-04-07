@@ -4,7 +4,6 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from django.conf import settings
 from .models import Post, Category
-from datetime import datetime
 from .search import SearchPost
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -13,7 +12,7 @@ from django.views import View
 from django.core.mail import send_mail
 from datetime import datetime
 
-from .models import Appointment
+from appointment.models import Appointment
 from .signals import logger
 from django.template.loader import render_to_string
 
@@ -170,7 +169,7 @@ class AppointmentView(View):
         )
         appointment.save()
 
-        return redirect('appointments:make_appointment')
+        return redirect('appointment:make_appointment')
 
 
 class CategoryListView(NewsList):

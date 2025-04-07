@@ -7,6 +7,7 @@ urlpatterns = [
     path('pages/', include('django.contrib.flatpages.urls')),
     path('', include('protect.urls')),
     path('sign/', include('sign.urls')),
+    path('appointment/', include(('appointment.urls'), namespace='appointment')),
     path('accounts/', include('allauth.urls')),
     path('', include('biblio.urls')),
 ]

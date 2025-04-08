@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.yandex',
     'appointment.apps.AppointmentConfig',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -154,10 +155,10 @@ EMAIL_USE_SSL = True  # Яндекс использует ssl, подробне�
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# ADMINS = [
-#     ('дмитрий', 'dim.ka77@mail.ru'),
-#     # список всех админов в формате ('имя', 'их почта')
-# ]
+ADMINS = [
+    ('дмитрий', 'dim.ka77@mail.ru'),
+    # список всех админов в формате ('имя', 'их почта')
+]
 
 MANAGERS = [
     ('дмитрий', 'dim.ka77@mail.ru'),
@@ -168,19 +169,20 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # это будет у нас вмес
 DEFAULT_FROM_EMAIL = os.getenv('SERVER_EMAIL')
 
 
-DEBUG = True
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
-    },
-}
-# if DEBUG:
-#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# DEBUG = True
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'DEBUG',
+#     },
+# }
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds

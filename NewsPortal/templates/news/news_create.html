@@ -5,18 +5,43 @@
 {% block content %}
 <div class="container mt-3">
     <h1>Создание новости</h1>
-    <p>Вы можете опубликовать не более 3 новостей в сутки.</p>
-        <hr>
-        {% if form.errors %}
-            <div class="alert alert-danger">
-                {% for error in form.non_field_errors %}
-                    {{ error }}
-                {% endfor %}
-            </div>
-        {% endif %}
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Сохранить" class="btn btn-primary" />
-        </form></div>
+    <hr>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+            {% for field in form %}
+                {% if field.errors %}
+                    <p><strong>{{ field.label }}:</strong> {{ field.errors|join:", " }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {# Автоматически генерируем все видимые поля #}
+        {% for field in form %}
+            {% if not field.is_hidden %}
+                <div class="form-group mb-3">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {# Все скрытые поля #}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+    </form>
+</div>
 {% endblock content %}

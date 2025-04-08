@@ -13,6 +13,24 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('title', 'text')  # Поиск по этим полям
     inlines = [PostCategoryInline]  # Включаем связанные категории
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # При редактировании существующего поста
+            return ('author',) + self.readonly_fields
+        return self.readonly_fields
+
+    def save_model(self, request, obj, form, change):
+        if not change:  # Только при создании
+            obj.author = request.user.author
+        super().save_model(request, obj, form, change)
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        # Скрываем поле автора при создании, так как оно устанавливается автоматически
+        if not obj:
+            if 'author' in form.base_fields:
+                del form.base_fields['author']
+        return form
+
 # Настраиваем отображение комментариев
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'post', 'created_at', 'rating')

@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -12,6 +12,7 @@ from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.views import View
 from django.core.mail import send_mail
 from datetime import datetime
+from django.utils import timezone
 
 from appointment.models import Appointment
 from .signals import logger
@@ -59,34 +60,65 @@ class NewsDetail(PermissionRequiredMixin, DetailView):
     permission_required = ('biblio.view_post',)
 
 
-# Добавляем новое представление для создания товаров.
-class PostCreate(PermissionRequiredMixin, CreateView):
+# NewsPortal/biblio/views.py
 
+class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news/news_create.html'
     permission_required = ('biblio.add_post',)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def form_valid(self, form):
-        # Устанавливаем автора текущего пользователя
-        form.instance.author = Author.objects.get(user=self.request.user)
         try:
+            author = Author.objects.get(user=self.request.user)
+            form.instance.author = author
+
+            # Проверка лимита новостей
+            if form.cleaned_data.get('post_type') == Post.NEWS:
+                today = timezone.now().date()
+                if Post.objects.filter(
+                        author=author,
+                        post_type=Post.NEWS,
+                        created_at__date=today
+                ).count() >= 3:
+                    form.add_error(None, "Лимит новостей (3 в день) исчерпан")
+                    return self.form_invalid(form)
+
             return super().form_valid(form)
-        except ValidationError as e:
-            form.add_error(None, e)
+        except Author.DoesNotExist:
+            form.add_error(None, "У вас нет прав автора")
             return self.form_invalid(form)
 
 
-
-
 class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
-    # Указываем нашу разработанную форму
     form_class = PostForm
-    # модель товаров
     model = Post
-    # и новый шаблон, в котором используется форма.
     template_name = 'news/news_edit.html'
     permission_required = ('biblio.change_post',)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # Дополнительная защита - проверяем, что пользователь редактирует свой пост
+        if form.instance.author.user != self.request.user:
+            raise PermissionDenied("Вы можете редактировать только свои публикации")
+        return form
+
+    def form_valid(self, form):
+        # Дополнительная проверка перед сохранением
+        if form.instance.author.user != self.request.user:
+            form.add_error(None, "Нельзя изменить автора публикации")
+            return self.form_invalid(form)
+        return super().form_valid(form)
 
 
 class PostDelete(PermissionRequiredMixin, DeleteView):

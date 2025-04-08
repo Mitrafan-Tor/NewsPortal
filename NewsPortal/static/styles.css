@@ -28,3 +28,60 @@ body {
 .news-detail {
     padding: 20px;
 }
+
+/* Стиль для отключенного поля автора */
+select:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Стиль для скрытого поля */
+.hidden-field {
+    display: none;
+}
+
+/* Стиль для отключенных полей */
+.disabled-field {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+    border: 1px solid #ced4da;
+}
+
+/* Улучшенные стили для ошибок */
+.alert-danger {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Стили для disabled полей */
+.form-control:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+/* Стили для скрытых полей */
+input[type="hidden"] {
+    display: none;
+}
+
+/* Улучшенные стили для формы */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}

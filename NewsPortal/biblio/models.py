@@ -77,10 +77,18 @@ class Post(models.Model):
         ).count()
 
     def clean(self):
+        # Проверка лимита новостей
         if self.post_type == self.NEWS and self.author:
             today_news_count = Post.get_today_news_count(self.author)
-            if today_news_count >= 3 and not self.pk:  # Проверяем только для новых записей
+            if today_news_count >= 3 and not self.pk:
                 raise ValidationError("Вы не можете публиковать более 3 новостей в сутки.")
+
+        # Проверка, что автор не изменяется
+        if self.pk:
+            original = Post.objects.get(pk=self.pk)
+            if self.author != original.author:
+                raise ValidationError("Нельзя изменять автора публикации.")
+
         super().clean()
 
 

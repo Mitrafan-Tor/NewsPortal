@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .post { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .post-title { font-size: 18px; margin-bottom: 5px; }
+        .post-date { color: #666; font-size: 14px; }
+        .post-excerpt { margin: 10px 0; }
+        .read-more { color: #1a73e8; text-decoration: none; }
+        .unsubscribe { margin-top: 30px; font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Уважаемый(ая) {{ user.username }},</h2>
+        <p>Вот подборка новостей за прошедшую неделю в категории "{{ category.name }}":</p>
+
+        {% for post in posts %}
+        <div class="post">
+            <h3 class="post-title">{{ post.title }}</h3>
+            <div class="post-date">
+                Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}
+            </div>
+            <div class="post-excerpt">
+                {{ post.preview|truncatewords:30 }}
+            </div>
+            <a href="{{ site_url }}{% url 'biblio:news_detail' post.id %}" class="read-more">
+                Читать полностью →
+            </a>
+        </div>
+        {% endfor %}
+
+        <div class="unsubscribe">
+            <p>
+                Если вы больше не хотите получать эти уведомления, вы можете
+                <a href="{{ site_url }}{% url 'biblio:subscribe' category.id %}">отписаться</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

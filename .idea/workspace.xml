@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ce851025-f3e3-4bdf-b609-d9ebde34a392" name="Changes" comment="приходят письма на почту при заказе  на сайте" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <branch-grouping />
+    <option name="FILTER_BY_ACTION_IN_POPUP" value="false" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SHOW_RECENT_BRANCHES" value="false" />
+    <option name="SHOW_TAGS" value="false" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mitrafan-Tor&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Mitrafan-Tor/NewsPortals&quot;,
+    &quot;accountId&quot;: &quot;d09b8e8d-83d7-4d1f-b60a-a5c67b835294&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2tuop28cl4dEOxb0BVWBDEMPlo9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/МОИ работы/SkillFactory/Skillfactory_python/NewsPortal 6&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates" />
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\articles" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\email" />
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\account\email" />
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\sign" />
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ce851025-f3e3-4bdf-b609-d9ebde34a392" name="Changes" comment="" />
+      <created>1741211499606</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741211499606</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Работает список, создание, редактирование, удаление списков и новостей">
+      <option name="closed" value="true" />
+      <created>1741462153592</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741462153592</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Регистраци , верификация, группы и права доступа">
+      <option name="closed" value="true" />
+      <created>1742417501724</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742417501724</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Регистраци , верификация, группы и права доступа">
+      <option name="closed" value="true" />
+      <created>1742417520027</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742417520027</updated>
+    </task>
+    <task id="LOCAL-00004" summary="приходят письма на почту при заказе  на сайте">
+      <option name="closed" value="true" />
+      <created>1742924815973</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742924815973</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="Работает список, создание, редактирование, удаление списков и новостей" />
+    <MESSAGE value="Регистраци , верификация, группы и права доступа" />
+    <MESSAGE value="приходят письма на почту при заказе  на сайте" />
+    <option name="LAST_COMMIT_MESSAGE" value="приходят письма на почту при заказе  на сайте" />
+  </component>
+</project>

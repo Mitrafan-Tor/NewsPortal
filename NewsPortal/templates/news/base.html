@@ -1,13 +1,19 @@
 ﻿{% extends 'default.html' %}
 
 {% block title %}
+{% load cache %}
+{% cache 120 news_title %}
 {% block news_title %}
-
 {% endblock news_title %}
-
+{% endcache %}
 {% endblock title %}
+
 {% block content %}
+{% load cache %}
 <div class="news-container">
+    {% cache 120 news_content %}
     {% block news_content %}
     {% endblock news_content %}
-</div>{% endblock content %}
+    {% endcache %}
+</div>
+{% endblock content %}

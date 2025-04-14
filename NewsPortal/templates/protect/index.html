@@ -1,1 +1,26 @@
-﻿{% extends "main.html" %}{% block content %}<h2>Страница авторизованного пользователя {{request.user.username}}</h2><div> Здесь может содержаться персональная информация для каждого пользователя </div>    <form action="/sign/logout/" method="post">    {% csrf_token %}        <input type="submit" value="Выйти">    </form>    {% if is_not_authors %}        <button> <a href="sign/upgrade/"> Стать автором </a> </button>    {% endif %}        <button> <a href="news/"> Читать новости </a> </button>   <button> <a href="articles/"> Читать статьи </a> </button>{% endblock %}
+﻿{% extends "main.html" %}
+
+{% block content %}
+    {% load cache %}
+
+    {% cache 120 user_info %}
+    <h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+    <div>Здесь может содержаться персональная информация для каждого пользователя</div>
+    {% endcache %}
+
+    <form action="/sign/logout/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Выйти">
+    </form>
+
+    {% cache 120 author_button %}
+    {% if is_not_authors %}
+        <button><a href="sign/upgrade/">Стать автором</a></button>
+    {% endif %}
+    {% endcache %}
+
+    {% cache 120 nav_buttons %}
+    <button><a href="news/">Читать новости</a></button>
+    <button><a href="articles/">Читать статьи</a></button>
+    {% endcache %}
+{% endblock %}

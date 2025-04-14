@@ -1,6 +1,6 @@
 from django.urls import path
 
-from appointment.urls import app_name
+from django.views.decorators.cache import cache_page
 from .views import (
     NewsList, NewsDetail, PostCreate, PostEdit, PostDelete,
     ArticlesList, ArticlesDetail, ArticlesEdit, ArticlesCreate, ArticlesDelete, CategoryListView, subscribe,# test_email,
@@ -11,8 +11,8 @@ app_name = 'biblio'
 
 urlpatterns = [
     # Новости
-    path('news/', NewsList.as_view(), name='news_list'),
-    path('news/<int:pk>/', NewsDetail.as_view(), name='news_detail'),
+    path('news/', cache_page(60*1)(NewsList.as_view()), name='news_list'),
+    path('news/<int:pk>/', cache_page(60*5)(NewsDetail.as_view()), name='news_detail'),
     path('news/create/', PostCreate.as_view(), name='news_create'),
     path('news/<int:pk>/edit/', PostEdit.as_view(), name='news_edit'),
     path('news/<int:pk>/delete/', PostDelete.as_view(), name='news_delete'),
@@ -26,5 +26,5 @@ urlpatterns = [
 
     path('categories/<int:pk>', CategoryListView.as_view(), name = 'category_list'),
     path('categories/<int:pk>/subscribe', subscribe, name = 'subscribe'),
-    #path('test-email/', test_email), # временно
+    
 ]

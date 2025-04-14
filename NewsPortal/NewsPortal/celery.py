@@ -14,9 +14,11 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send_weekly_newsletters': {
         'task': 'appointment.tasks.send_weekly_newsletters',
-        'schedule': crontab(hour=23, minute=10, day_of_week=6),  # Понедельник в 8 утра
+        'schedule': crontab(hour=8, minute=0, day_of_week=1),  # Понедельник в 8 утра
         'options': {
             'expires': 60 * 60 * 24,  # Задача истекает через 24 часа
         },
     },
 }
+
+

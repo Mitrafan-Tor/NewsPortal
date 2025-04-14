@@ -3,33 +3,22 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.template.loader import render_to_string
-from django.urls import reverse
-from .models import Post, Category
+from appointment.tasks import send_new_post_notifications
+from .models import Post
 import logging
 
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
 
 @receiver(m2m_changed, sender=Post.categories.through)
 def notify_about_new_post(sender, instance, action, **kwargs):
     if action == "post_add" and instance.post_type == Post.NEWS:
         try:
-            for category in instance.categories.all():
-                subscribers = category.subscribers.all()
-
-                for user in subscribers:
-                    if not user.email:
-                        continue
-
-                    send_post_notification(
-                        post=instance,
-                        category=category,
-                        email=user.email,
-                        username=user.username
-                    )
-
+            # Отправляем задачу в Celery
+            send_new_post_notifications.delay(instance.id)
+            logger.info(f"Задача на отправку уведомлений для поста {instance.id} поставлена в очередь")
         except Exception as e:
-            logger.error(f"Ошибка при отправке уведомлений: {str(e)}")
+            logger.error(f"Ошибка при постановке задачи в Celery: {str(e)}")
 
 
 def send_post_notification(post, category, email, username):

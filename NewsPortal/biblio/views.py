@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError, PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -17,6 +17,31 @@ from django.utils import timezone
 from appointment.models import Appointment
 from .signals import logger
 from django.template.loader import render_to_string
+
+from django.core.cache import cache # импортируем наш кэш
+
+
+class PostDetailView(DetailView):
+    model = Post
+
+    # template_name определяется в get_template_names()
+
+    def get_object(self, *args, **kwargs):
+        cache_key = f'post-{self.kwargs["pk"]}'  # Исправленный ключ кэша
+        obj = cache.get(cache_key)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(cache_key, obj, timeout=60 * 15)  # Кэшируем на 15 минут
+            print(f"Объект закэширован с ключом {cache_key}")  # Для отладки
+
+        return obj
+
+    def get_template_names(self):
+        obj = self.get_object()
+        if obj.post_type == Post.NEWS:
+            return ['news/news_detail.html']
+        return ['articles/articles_detail.html']
 
 
 #Новости

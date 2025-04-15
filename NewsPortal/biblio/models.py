@@ -2,8 +2,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-#from datetime import datetime
 from django.utils import timezone
+from django.core.cache import cache
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -50,6 +50,9 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f"{self.title}: {self.text[:20]}"
+
     def get_absolute_url(self):
         return reverse('biblio:news_detail', args=[str(self.id)])
 
@@ -62,10 +65,14 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return f"{self.text}"
+        return f"{self.text[:124]}..."  # Укороченный превью-текст
 
-    def __str__(self):
-        return f"{self.title}: {self.text[:20]}"
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Сначала сохраняем объект
+        cache.delete(f'post-{self.pk}')  # Затем чистим кэш для этого поста
+        # Можно также очистить кэш списков, если нужно:
+        cache.delete('latest_news')
+        cache.delete('latest_articles')
 
     @classmethod
     def get_today_news_count(cls, author):
@@ -77,18 +84,10 @@ class Post(models.Model):
         ).count()
 
     def clean(self):
-        # Проверка лимита новостей
         if self.post_type == self.NEWS and self.author:
             today_news_count = Post.get_today_news_count(self.author)
             if today_news_count >= 3 and not self.pk:
-                raise ValidationError("Вы не можете публиковать более 3 новостей в сутки.")
-
-        # Проверка, что автор не изменяется
-        if self.pk:
-            original = Post.objects.get(pk=self.pk)
-            if self.author != original.author:
-                raise ValidationError("Нельзя изменять автора публикации.")
-
+                raise ValidationError("Нельзя публиковать более 3 новостей в сутки.")
         super().clean()
 
 

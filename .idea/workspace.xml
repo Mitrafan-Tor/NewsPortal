@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce851025-f3e3-4bdf-b609-d9ebde34a392" name="Changes" comment="приходят письма на почту при заказе  на сайте">
+      <change afterPath="$PROJECT_DIR$/NewsPortal/biblio/management/commands/clear_category_nw.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPortal/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPortal/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPortal/biblio/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPortal/biblio/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPortal/biblio/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPortal/biblio/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPortal/celerybeat-schedule-wal" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPortal/celerybeat-schedule-wal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPortal/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPortal/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,20 +80,21 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/МОИ работы/SkillFactory/Skillfactory_python/NewsPortal 6&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/МОИ работы/SkillFactory/Skillfactory_python/NewsPortal 6/NewsPortal&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal" />
       <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates" />
       <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\articles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates" />
       <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\email" />
       <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\account\email" />
       <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates\sign" />
-      <recent name="D:\МОИ работы\SkillFactory\Skillfactory_python\NewsPortal 6\NewsPortal\templates" />
     </key>
   </component>
   <component name="SharedIndexes">

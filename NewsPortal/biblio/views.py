@@ -23,9 +23,7 @@ from django.core.cache import cache # импортируем наш кэш
 
 class PostDetailView(DetailView):
     model = Post
-
     # template_name определяется в get_template_names()
-
     def get_object(self, *args, **kwargs):
         cache_key = f'post-{self.kwargs["pk"]}'  # Исправленный ключ кэша
         obj = cache.get(cache_key)

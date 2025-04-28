@@ -6,15 +6,25 @@
 {% endblock title %}
 {% block content %}
 <div class="container mt-3">
-    <form action="" method="get">
-        {{ filterset.form.as_p }}
-        <input type="submit" value="Найти" class="btn btn-primary" />
+    <form action="" method="get" class="mb-4">
+        <div class="row g-3 align-items-end">
+            {% for field in filterset.form %}
+            <div class="col-md-4">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <div class="col-md-4">
+                <input type="submit" value="Найти" class="btn btn-primary" />
+            </div>
+        </div>
     </form>
+
     <h1>Все статьи ({{ article_count }})</h1>
     <div class="articles-list">
         {% if article %}
             {% for post in article %}
-                <div class="post mb-4">
+                <div class="post mb-4 border-bottom pb-3">
                     <div class="d-flex align-items-center">
                         <h3 class="mb-0 me-2"><a href="{% url 'biblio:articles_detail' post.id %}">{{ post.title|censor }}</a></h3>
                         {% if user.is_authenticated and user == post.author.user %}
@@ -25,25 +35,24 @@
                         {% endif %}
                     </div>
                     <div class="post-meta mt-2">
-                        <p>
-                            {{ post.created_at|date:"d.m.Y H:i" }} |
-                            {{ post.preview|censor|truncatewords:20 }}
+                        <p class="mb-1">
+                            {{ post.created_at|date:"d.m.Y H:i" }} | {{ post.preview|censor|truncatewords:20 }}
                         </p>
-                        <h6>Категории:</h6>
-                        <div class="categories-wrapper">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <span class="me-2">Категории:</span>
                             {% for category in post.categories.all %}
-                            <div class="category-item" style="display: inline-block; margin-right: 15px; margin-bottom: 10px;">
-                                <span>{{ category.name }}</span>
+                            <span class="d-inline-flex align-items-center me-3">
+                                {{ category.name }}
                                 {% if user.is_authenticated %}
-                                <form action="{% url 'biblio:subscribe' category.id %}" method="post" style="display: inline; margin-left: 5px;">
+                                <form action="{% url 'biblio:subscribe' category.id %}" method="post" class="ms-2">
                                     {% csrf_token %}
                                     <input type="hidden" name="next" value="{% url 'biblio:articles_list' %}">
-                                    <button type="submit" class="btn btn-sm {% if user in category.subscribers.all %}btn-outline-danger{% else %}btn-outline-primary{% endif %}" style="padding: 0.15rem 0.5rem; font-size: 0.8rem;">
+                                    <button type="submit" class="btn btn-sm {% if user in category.subscribers.all %}btn-outline-danger{% else %}btn-outline-primary{% endif %}">
                                         {% if user in category.subscribers.all %}Отписаться{% else %}Подписаться{% endif %}
                                     </button>
                                 </form>
                                 {% endif %}
-                            </div>
+                            </span>
                             {% endfor %}
                         </div>
                     </div>
@@ -52,20 +61,20 @@
         {% else %}
             <p>Статей пока нет.</p>
         {% endif %}
-        <div class="pagination">
+        <div class="pagination mt-4">
             {% if page_obj.has_previous %}
-                <a href="?{% url_replace page=1 %}">1</a>
+                <a href="?{% url_replace page=1 %}" class="page-link">1</a>
                 {% if page_obj.previous_page_number != 1 %}
-                    ...
-                    <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+                    <span class="mx-2">...</span>
+                    <a href="?{% url_replace page=page_obj.previous_page_number %}" class="page-link">{{ page_obj.previous_page_number }}</a>
                 {% endif %}
             {% endif %}
-            {{ page_obj.number }}
+            <span class="current-page mx-2">{{ page_obj.number }}</span>
             {% if page_obj.has_next %}
-                <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+                <a href="?{% url_replace page=page_obj.next_page_number %}" class="page-link">{{ page_obj.next_page_number }}</a>
                 {% if paginator.num_pages != page_obj.next_page_number %}
-                    ...
-                    <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+                    <span class="mx-2">...</span>
+                    <a href="?{% url_replace page=page_obj.paginator.num_pages %}" class="page-link">{{ page_obj.paginator.num_pages }}</a>
                 {% endif %}
             {% endif %}
         </div>

@@ -18,7 +18,7 @@ from appointment.models import Appointment
 from .signals import logger
 from django.template.loader import render_to_string
 
-from django.core.cache import cache # импортируем наш кэш
+from django.core.cache import cache
 
 
 class PostDetailView(DetailView):

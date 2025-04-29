@@ -1,1 +1,40 @@
-﻿{% extends 'default.html' %}{% block title %}    Создание статьи{% endblock title %}{% block content %}<div class="container mt-3">    <h1>Создание статьи</h1>    <hr>    <form action="" method="post">        {% csrf_token %}        {{ form.as_p }}        <input type="submit" value="Сохранить" class="btn btn-primary" />    </form></div>{% endblock content %}
+﻿{% extends 'default.html' %}
+
+{% block title %}Создание статьи{% endblock title %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1>Создание статьи</h1>
+    <hr>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                    {% if "стать автором" in message|lower %}
+                        <a href="{% url 'become_author' %}" class="btn btn-success ml-2">Стать автором</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p>{{ field|title }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+        <a href="{% url 'biblio:articles_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock content %}

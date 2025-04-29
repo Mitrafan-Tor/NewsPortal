@@ -1,16 +1,15 @@
 ﻿<html>
     <head>
-        {% load cache %}
-        {% cache 120 head %}
+
         <title>Simple SignUp/SignIn app</title>
-        {% endcache %}
+
     </head>
     <body>
-        {% cache 120 header %}
+
         <div>
             <h1><a href="/">Simple SignUp/SignIn app</a></h1>
         </div>
-        {% endcache %}
+
 
         {% block content %}
         {% endblock %}

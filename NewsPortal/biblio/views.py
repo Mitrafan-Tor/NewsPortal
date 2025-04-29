@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.checks import messages
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -144,6 +145,39 @@ class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
+class PostList(PermissionRequiredMixin, ListView):
+    model = Post
+    template_name = 'news/news_list.html'
+    context_object_name = 'news'
+    paginate_by = 10
+    permission_required = ('biblio.view_post',)
+
+    # Переопределяем функцию получения списка товаров
+    def get_queryset(self):
+        # Получаем обычный запрос
+        queryset = super().get_queryset()
+        # Используем наш класс фильтрации.
+        # self.request.GET содержит объект QueryDict, который мы рассматривали
+        # в этом юните ранее.
+        # Сохраняем нашу фильтрацию в объекте класса,
+        # чтобы потом добавить в контекст и использовать в шаблоне.
+        self.filterset = SearchPost(self.request.GET, queryset)
+        # Возвращаем из функции отфильтрованный список товаров
+        return self.filterset.qs
+
+    # Метод get_context_data позволяет нам изменить набор данных,
+    # который будет передан в шаблон.
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        # Добавляем подсчет новостей и статей
+        context['news_count'] = Post.objects.filter(post_type='NW').count()
+        context['article_count'] = Post.objects.filter(post_type='AR').count()
+        context['time_now'] = datetime.now()
+        context['next_sale'] = "Распродажа в среду!"
+        return context
+
+
 class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'news/news_delete.html'
@@ -193,14 +227,28 @@ class ArticlesDetail(PermissionRequiredMixin, DetailView):
 
 
 # # Добавляем новое представление для создания товаров.
-class ArticlesCreate(PermissionRequiredMixin, CreateView):
-    # Указываем нашу разработанную форму
+from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.views.generic import CreateView
+
+
+class ArticlesCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
-    # модель товаров
     model = Post
-    # и новый шаблон, в котором используется форма.
     template_name = 'articles/articles_create.html'
     permission_required = ('biblio.add_post',)
+
+    def get_success_url(self):
+        return reverse('biblio:articles_detail', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        if not hasattr(self.request.user, 'author'):
+            messages.error(self.request, "Вы должны стать автором, прежде чем создавать статьи")
+            return self.form_invalid(form)
+
+        form.instance.author = self.request.user.author
+        return super().form_valid(form)
 
  # Добавляем представление для изменения товара.
 class ArticlesEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):

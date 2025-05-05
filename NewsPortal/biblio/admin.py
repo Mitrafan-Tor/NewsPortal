@@ -1,8 +1,7 @@
-from itertools import count
-
-from .models import Author, Category, Post, PostCategory, Comment
+from .models import Author, Category, Post, PostCategory, Comment, MyModel
 from django.contrib import admin
 
+from modeltranslation.admin import TranslationAdmin # импортируем модель амдинки (вспоминаем модуль про переопределение стандартных админ-инструментов)
 
 
 # напишем уже знакомую нам функцию обнуления товара на складе
@@ -59,8 +58,22 @@ class AuthorAdmin(admin.ModelAdmin):
         return obj.post_set.count()
     count_posts.short_description = 'Количество постов'
 
+# Register your models here.
+
+# Регистрируем модели для перевода в админке
+
+class CategoryAdmin(TranslationAdmin):
+    model = Category
+
+
+class MyModelAdmin(TranslationAdmin):
+    model = MyModel
+
+
+admin.site.register(MyModel)
 # Регистрируем модели в административной панели
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Category)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
+

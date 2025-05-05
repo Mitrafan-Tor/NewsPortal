@@ -15,24 +15,14 @@ class SearchPost(FilterSet):
         )
    )
 
-   # material=ModelMultipleChoiceFilter(
-   #         field_name='productmaterial__material',
-   #         queryset=Material.objects.all(),
-   #         label='Material',
-   #         conjoined=True,
-   #     )
-
-   #category = CharFilter(field_name='postcategory__category__name', lookup_expr='icontains')
-
    class Meta:
        model = Post
        fields = {
            'title': ['icontains'],
            'author__user__username': ['icontains'],
-           #'postcategory__category__name': ['icontains'],  # Альтернативный вариант
        }
 
-   categpry=ModelMultipleChoiceFilter(
+   category=ModelMultipleChoiceFilter(
            field_name='postcategory__category__name',
            queryset=Category.objects.all(),
            label='Категория',

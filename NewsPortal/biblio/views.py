@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.core.checks import messages
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
+
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -20,6 +22,10 @@ from .signals import logger
 from django.template.loader import render_to_string
 
 from django.core.cache import cache
+from django.contrib import messages
+from django.utils.translation import gettext as _ # импортируем функцию для перевода
+
+from .models import MyModel
 
 
 class PostDetailView(DetailView):
@@ -227,12 +233,6 @@ class ArticlesDetail(PermissionRequiredMixin, DetailView):
 
 
 # # Добавляем новое представление для создания товаров.
-from django.urls import reverse
-from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from django.views.generic import CreateView
-
-
 class ArticlesCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
@@ -354,3 +354,22 @@ def send_subscription_email(user, category, is_subscribed):
             print(f"Ошибка отправки: {str(e)}")
 
 
+# class Index(View):
+#     def get(self, request):
+#         string = _('Hello world')
+#
+#         from django.http import HttpResponse
+#         return HttpResponse(string)
+
+
+# Create your views here.
+class Index(View):
+    def get(self, request):
+        # . Translators: This message appears on the home page only
+        models = MyModel.objects.all()
+
+        context = {
+            'models': models,
+        }
+
+        return HttpResponse(render(request, 'index.html', context))

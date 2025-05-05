@@ -17,6 +17,7 @@ class PostForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)  # Извлекаем request
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['post_type'].disabled = True

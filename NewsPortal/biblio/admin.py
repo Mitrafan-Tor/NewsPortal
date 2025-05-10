@@ -1,4 +1,4 @@
-from .models import Author, Category, Post, PostCategory, Comment, MyModel
+from .models import Author, Category, Post, PostCategory, Comment, Post
 from django.contrib import admin
 
 from modeltranslation.admin import TranslationAdmin # импортируем модель амдинки (вспоминаем модуль про переопределение стандартных админ-инструментов)
@@ -66,14 +66,14 @@ class CategoryAdmin(TranslationAdmin):
     model = Category
 
 
-class MyModelAdmin(TranslationAdmin):
-    model = MyModel
+class TransPostAdmin(PostAdmin, TranslationAdmin):
+    model = Post
 
 
-admin.site.register(MyModel)
+
 # Регистрируем модели в административной панели
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Category)
-admin.site.register(Post, PostAdmin)
+admin.site.register(Post, TransPostAdmin)
 admin.site.register(Comment, CommentAdmin)
 

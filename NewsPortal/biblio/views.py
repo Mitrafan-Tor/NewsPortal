@@ -1,9 +1,11 @@
+import pytz
 from django.contrib.auth.decorators import login_required
 from django.core.checks import messages
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from django.conf import settings
@@ -25,7 +27,7 @@ from django.core.cache import cache
 from django.contrib import messages
 from django.utils.translation import gettext as _ # импортируем функцию для перевода
 
-from .models import MyModel
+#from .models import MyModel
 
 
 class PostDetailView(DetailView):
@@ -300,9 +302,6 @@ class CategoryListView(NewsList):
         return context
 
 
-
-
-
 @login_required
 def subscribe(request, pk):
     category = get_object_or_404(Category, id=pk)
@@ -354,22 +353,28 @@ def send_subscription_email(user, category, is_subscribed):
             print(f"Ошибка отправки: {str(e)}")
 
 
-# class Index(View):
-#     def get(self, request):
-#         string = _('Hello world')
-#
-#         from django.http import HttpResponse
-#         return HttpResponse(string)
-
-
 # Create your views here.
 class Index(View):
     def get(self, request):
+        curent_time = timezone.now()
         # . Translators: This message appears on the home page only
-        models = MyModel.objects.all()
+        models = Post.objects.all()
 
         context = {
             'models': models,
+            'current_time': timezone.now(),
+            'timezones': pytz.common_timezones  # добавляем в контекст все доступные часовые пояса
         }
 
         return HttpResponse(render(request, 'index.html', context))
+
+        #  по пост-запросу будем добавлять в сессию часовой пояс, который и будет обрабатываться написанным нами ранее middleware
+
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('/')
+
+@require_POST
+def set_timezone(request):
+    request.session['django_timezone'] = request.POST['timezone']
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

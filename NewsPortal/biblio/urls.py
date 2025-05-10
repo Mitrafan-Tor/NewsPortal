@@ -6,6 +6,8 @@ from .views import (
     ArticlesList, ArticlesDetail, ArticlesEdit, ArticlesCreate, ArticlesDelete, CategoryListView, subscribe,# test_email,
     # unsubscribe,
 )
+from django.urls import path
+from . import views
 
 app_name = 'biblio'
 
@@ -26,5 +28,6 @@ urlpatterns = [
 
     path('categories/<int:pk>', CategoryListView.as_view(), name = 'category_list'),
     path('categories/<int:pk>/subscribe', subscribe, name = 'subscribe'),
+    path('set-timezone/', views.set_timezone, name='set_timezone'),
     
 ]

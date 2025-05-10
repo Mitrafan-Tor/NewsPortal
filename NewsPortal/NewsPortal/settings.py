@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.yandex',
     'appointment.apps.AppointmentConfig',
     'django_apscheduler',
+
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,8 @@ MIDDLEWARE = [
 
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
+
+    'biblio.middlewares.TimezoneMiddleware'
 ]
 
 ROOT_URLCONF = 'NewsPortal.urls'
@@ -78,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
+                 'biblio.context_tz.get_timezone',
             ],
         },
     },

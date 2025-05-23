@@ -1,3 +1,4 @@
+import django_filters
 import pytz
 from django.contrib.auth.decorators import login_required
 from django.core.checks import messages
@@ -13,7 +14,7 @@ from .models import Post, Category, Author
 from .search import SearchPost
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render, reverse, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.views import View
 from django.core.mail import send_mail
 from datetime import datetime
@@ -27,7 +28,17 @@ from django.core.cache import cache
 from django.contrib import messages
 from django.utils.translation import gettext as _ # импортируем функцию для перевода
 
-#from .models import MyModel
+from django.shortcuts import render
+from rest_framework import viewsets, status
+from rest_framework import permissions
+
+from biblio.serializers import *
+from biblio.models import *
+
+from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.response import Response
+
 
 
 class PostDetailView(DetailView):
@@ -52,13 +63,13 @@ class PostDetailView(DetailView):
 
 
 #Новости
-class NewsList(PermissionRequiredMixin, ListView):
+class NewsList(ListView):
     model = Post
     template_name = 'news/news_list.html'
     context_object_name = 'news'
     queryset = Post.objects.filter(post_type='NW').order_by('-created_at')
     paginate_by = 10
-    permission_required = ('biblio.view_post',)
+    #permission_required = ('biblio.view_post',)
 
     # Переопределяем функцию получения списка товаров
     def get_queryset(self):
@@ -77,6 +88,9 @@ class NewsList(PermissionRequiredMixin, ListView):
     # который будет передан в шаблон.
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # print("Отладочная информация:")  # Добавьте эту строку отладка
+        # print("Количество новостей:", len(context['news']))  # И эту отладка
+        # print("Пользователь аутентифицирован:", self.request.user.is_authenticated)  # И эту
         context['filterset'] = self.filterset
         # Добавляем подсчет новостей и статей
         context['news_count'] = Post.objects.filter(post_type='NW').count()
@@ -85,11 +99,11 @@ class NewsList(PermissionRequiredMixin, ListView):
         context['next_sale'] = "Распродажа в среду!"
         return context
 
-class NewsDetail(PermissionRequiredMixin, DetailView):
+class NewsDetail(DetailView):
     model = Post
     template_name = 'news/news_detail.html'
     context_object_name = 'news'
-    permission_required = ('biblio.view_post',)
+    #permission_required = ('biblio.view_post',)
 
 
 # NewsPortal/biblio/views.py
@@ -194,13 +208,13 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
 
 
 #СТАТЬИ
-class ArticlesList(PermissionRequiredMixin, ListView):
+class ArticlesList(ListView):
     model = Post
     template_name = 'articles/articles_list.html'
     context_object_name = 'article'
     queryset = Post.objects.filter(post_type='AR').order_by('-created_at')
     paginate_by = 10
-    permission_required = ('biblio.view_post',)
+    #permission_required = ('biblio.view_post',)
 
     # Переопределяем функцию получения списка товаров
     def get_queryset(self):
@@ -227,11 +241,11 @@ class ArticlesList(PermissionRequiredMixin, ListView):
         context['next_sale'] = "Распродажа в среду!"
         return context
 
-class ArticlesDetail(PermissionRequiredMixin, DetailView):
+class ArticlesDetail(DetailView):
      model = Post
      template_name = 'articles/articles_detail.html'
      context_object_name = 'article'
-     permission_required = ('biblio.view_post',)
+     #permission_required = ('biblio.view_post',)
 
 
 # # Добавляем новое представление для создания товаров.
@@ -378,3 +392,35 @@ class Index(View):
 def set_timezone(request):
     request.session['django_timezone'] = request.POST['timezone']
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class SchoolViewset(viewsets.ModelViewSet):
+   queryset = School.objects.all().filter(is_active=True)
+   serializer_class = SchoolSerializer
+
+   def destroy(self, request, pk, format=None):
+       instance = self.get_object()
+       instance.is_active = False
+       instance.save()
+       return Response(status=status.HTTP_204_NO_CONTENT)
+
+class SClassViewset(viewsets.ModelViewSet):
+   queryset = SClass.objects.all()
+   serializer_class = SClassSerializer
+   filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+   filterset_fields = ["grade", "school_id"]
+
+
+class StudentViewset(viewsets.ModelViewSet):
+   queryset = Student.objects.all()
+   serializer_class = StudentSerializer
+   permission_classes = [permissions.IsAuthenticated]
+   def get_queryset(self):
+       queryset = Student.objects.all()
+       school_id = self.request.query_params.get('school_id', None)
+       sclass_id = self.request.query_params.get('sclass_id', None)
+       if school_id is not None:
+           queryset = queryset.filter(sclass__school_id=school_id)
+       if sclass_id is not None:
+           queryset = queryset.filter(sclass_id=sclass_id)
+       return queryset

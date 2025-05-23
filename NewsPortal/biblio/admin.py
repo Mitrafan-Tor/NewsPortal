@@ -58,10 +58,6 @@ class AuthorAdmin(admin.ModelAdmin):
         return obj.post_set.count()
     count_posts.short_description = 'Количество постов'
 
-# Register your models here.
-
-# Регистрируем модели для перевода в админке
-
 class CategoryAdmin(TranslationAdmin):
     model = Category
 

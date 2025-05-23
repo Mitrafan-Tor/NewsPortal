@@ -36,15 +36,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-# class MyModel(models.Model):
-#     name = models.CharField(max_length=100)
-#     kind = models.ForeignKey(
-#         Category,
-#         on_delete=models.CASCADE,
-#         related_name='kinds',
-#         verbose_name=pgettext_lazy('help text for MyModel model', 'This is the help text'),
-#     )
-
 
 class Post(models.Model):
     NEWS = 'NW'
@@ -125,3 +116,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username}: {self.text[:20]}"
+
+
+class School(models.Model):
+   name = models.CharField(max_length=64, unique=True)
+   address = models.CharField(max_length=120)
+   is_active = models.BooleanField(default=True)
+
+
+class SClass(models.Model):
+   grade = models.IntegerField()
+   school = models.ForeignKey(School, on_delete=models.CASCADE)
+
+
+class Student(models.Model):
+   name = models.CharField(max_length=64)
+   sclass = models.ForeignKey(SClass, on_delete=models.CASCADE)

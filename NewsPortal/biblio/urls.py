@@ -13,8 +13,12 @@ app_name = 'biblio'
 
 urlpatterns = [
     # Новости
-    path('news/', cache_page(60*1)(NewsList.as_view()), name='news_list'),
-    path('news/<int:pk>/', cache_page(60*5)(NewsDetail.as_view()), name='news_detail'),
+    # path('', cache_page(60 * 1)(NewsList.as_view()), name='news_list'),
+    # path('news/', cache_page(60*1)(NewsList.as_view()), name='news_list'),
+    # path('news/<int:pk>/', cache_page(60*5)(NewsDetail.as_view()), name='news_detail'),
+    path('', NewsList.as_view(), name='news_list'),
+    path('news/', NewsList.as_view(), name='news_list'),
+    path('news/<int:pk>/', NewsDetail.as_view(), name='news_detail'),
     path('news/create/', PostCreate.as_view(), name='news_create'),
     path('news/<int:pk>/edit/', PostEdit.as_view(), name='news_edit'),
     path('news/<int:pk>/delete/', PostDelete.as_view(), name='news_delete'),

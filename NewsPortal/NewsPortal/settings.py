@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'appointment.apps.AppointmentConfig',
     'django_apscheduler',
 
+    'rest_framework'
+
 ]
 
 MIDDLEWARE = [
@@ -309,3 +311,15 @@ LANGUAGES = [
     ('en-us', 'English'),
     ('ru', 'Русский')
 ]
+
+REST_FRAMEWORK = {
+   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+   'PAGE_SIZE': 10,
+   'DEFAULT_PERMISSION_CLASSES': [
+       #'rest_framework.permissions.IsAuthenticated',
+       #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+       'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+   ]
+
+}

@@ -15,68 +15,101 @@
         .language-timezone-bar button {
             min-width: max-content;
         }
+        .navbar-content {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-main-links {
+            display: flex;
+        }
+        .nav-right-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'biblio:news_list' %}">Новостной портал</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="navbar-content">
+            <!-- Логотип и основные ссылки слева -->
+            <div class="nav-main-links">
+                <a class="navbar-brand me-4" href="{% url 'biblio:news_list' %}">Новостной портал</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'biblio:articles_list' %}">{% trans "Статьи" %}</a>
+                    </li>
+                    {% if user.is_authenticated and user.author %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown">
+                            {% trans "Создать" %}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'biblio:news_create' %}">{% trans "Новость" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'biblio:articles_create' %}">{% trans "Статью" %}</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
 
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'biblio:articles_list' %}">{% trans "Статьи" %}</a>
-                </li>
-                {% if user.is_authenticated and user.author %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown">
-                        {% trans "Создать" %}
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'biblio:news_create' %}">{% trans "Новость" %}</a></li>
-                        <li><a class="dropdown-item" href="{% url 'biblio:articles_create' %}">{% trans "Статью" %}</a></li>
-                    </ul>
-                </li>
-                {% endif %}
-            </ul>
+            <!-- Правая часть навигации -->
+            <div class="nav-right-section">
+                <!-- Панель выбора языка/времени -->
+                <div class="language-timezone-bar d-flex align-items-center gap-2 text-white">
+                    <!-- Выбор языка -->
+                    <form action="{% url 'set_language' %}" method="POST" class="d-flex align-items-center">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <select name="language" class="form-select form-select-sm me-2">
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
+                                    {{ language.name_local }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-light">{% trans "Применить" %}</button>
+                    </form>
 
-            <!-- Панель выбора языка/времени -->
-            <div class="language-timezone-bar d-flex align-items-center gap-2 text-white">
+                    <!-- Выбор временной зоны -->
+                    <form action="{% url 'biblio:set_timezone' %}" method="POST" class="d-flex align-items-center">
+                        {% csrf_token %}
+                        <select name="timezone" class="form-select form-select-sm me-2">
+                            {% for tz in timezones %}
+                            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-light">{% trans "Применить" %}</button>
+                    </form>
 
-                <!-- Выбор языка -->
-                <form action="{% url 'set_language' %}" method="POST" class="d-flex align-items-center">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <select name="language" class="form-select form-select-sm me-2">
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
-                                {{ language.name_local }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-outline-light">{% trans "Применить" %}</button>
-                </form>
+                    <!-- Текущее время -->
+                    <div class="ms-2">
+                        {{ current_time|timezone:TIME_ZONE|date:"DATETIME_FORMAT" }}
+                    </div>
+                </div>
 
-                <!-- Выбор временной зоны -->
-                <form action="{% url 'biblio:set_timezone' %}" method="POST" class="d-flex align-items-center">
-                    {% csrf_token %}
-                    <select name="timezone" class="form-select form-select-sm me-2">
-                        {% for tz in timezones %}
-                        <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-outline-light">{% trans "Применить" %}</button>
-                </form>
-
-                <!-- Текущее время -->
-                <div class="ms-2">
-                    {{ current_time|timezone:TIME_ZONE|date:"DATETIME_FORMAT" }}
+                <!-- Кнопки авторизации/выхода -->
+                <div class="auth-buttons">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'account_logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-light">{% trans "Выйти" %}</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="btn btn-sm btn-outline-light">{% trans "Войти" %}</a>
+                        <a href="{% url 'account_signup' %}" class="btn btn-sm btn-primary">{% trans "Зарегистрироваться" %}</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
